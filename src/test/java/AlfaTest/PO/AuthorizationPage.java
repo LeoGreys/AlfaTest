@@ -41,11 +41,12 @@ public class AuthorizationPage {
 
     public void clickOnElement(By by) {
         AndroidDriverConfig.driver.findElement(by).click();
+        waitForLoad();
     }
 
     public void waitForLoad() {
         try {
-            Thread.sleep(5000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

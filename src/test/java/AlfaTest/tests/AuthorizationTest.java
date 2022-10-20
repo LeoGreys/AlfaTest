@@ -8,13 +8,13 @@ import org.testng.annotations.*;
 public class AuthorizationTest extends AuthorizationPage {
     protected static final AndroidDriverConfig ad = new AndroidDriverConfig();
 
-    @BeforeClass(alwaysRun = true)
-    public void beforeClass() {
+    @BeforeMethod(alwaysRun = true)
+    public void beforeMethod() {
         ad.init();
     }
 
-    @AfterClass(alwaysRun = true)
-    public void afterClass() {
+    @AfterMethod(alwaysRun = true)
+    public void afterMethod() {
         ad.stop();
     }
 
@@ -24,7 +24,6 @@ public class AuthorizationTest extends AuthorizationPage {
     final String PASSWORD = "Password";
     final String PASSWORD_LOWER_CASE = "password";
     final String PASSWORD_UPPER_CASE = "PASSWORD";
-
     final String DEFAULT_LOGIN_PROMPT = "Логин";
     final String DEFAULT_PASSWORD_PROMPT = "Пароль";
     final String INCORRECT_LOGIN_VALUE = "123%^&";
@@ -62,7 +61,6 @@ public class AuthorizationTest extends AuthorizationPage {
         /* Вход выполнен и открыта страница успешной авторизации.
            Текст «Вход в Alfa-Test выполнен» отображается на экране.*/
         clickOnElement(Elements.AUTHORIZATION_CONFIRM_BUTTON);
-        waitForLoad();
         Assert.assertTrue(isElementDisplayed(Elements.SUCCESS_AUTHORIZATION_TITLE));
         Assert.assertEquals(getElementText(Elements.SUCCESS_AUTHORIZATION_TITLE), Texts.AUTHORIZATION_TITLE_SUCCESS_TEXT);
     }
@@ -88,7 +86,7 @@ public class AuthorizationTest extends AuthorizationPage {
         fillElement(Elements.AUTHORIZATION_LOGIN_INPUT, LOGIN);
         Assert.assertEquals(getElementText(Elements.AUTHORIZATION_LOGIN_INPUT), LOGIN);
         Assert.assertEquals(getElementText(Elements.AUTHORIZATION_PASSWORD_INPUT), DEFAULT_PASSWORD_PROMPT);
-        Assert.assertFalse(isElementDisplayed(Elements.AUTHORIZATION_VALIDATION_ERROR));
+        Assert.assertEquals(getElementText(Elements.AUTHORIZATION_VALIDATION_ERROR), "");
 
 //      Вход не выполнен. Выведено сообщение валидации «Введены неверные данные».
         clickOnElement(Elements.AUTHORIZATION_CONFIRM_BUTTON);
@@ -100,7 +98,7 @@ public class AuthorizationTest extends AuthorizationPage {
         fillElement(Elements.AUTHORIZATION_PASSWORD_INPUT, PASSWORD);
         Assert.assertEquals(getElementText(Elements.AUTHORIZATION_LOGIN_INPUT), DEFAULT_LOGIN_PROMPT);
         Assert.assertEquals(getElementText(Elements.AUTHORIZATION_PASSWORD_INPUT), PASSWORD);
-        Assert.assertFalse(isElementDisplayed(Elements.AUTHORIZATION_VALIDATION_ERROR));
+        Assert.assertEquals(getElementText(Elements.AUTHORIZATION_VALIDATION_ERROR), "");
 
 //      Вход не выполнен. Выведено сообщение валидации «Введены неверные данные».
         clickOnElement(Elements.AUTHORIZATION_CONFIRM_BUTTON);
